@@ -1,0 +1,65 @@
+---
+import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
+import Layout from '../layouts/Page.astro';
+import { PROFILE } from '../consts';
+---
+
+<Layout
+	title="About"
+	description="A short intro to my work, values, and what I am building now."
+>
+	<div class="about-hero">
+		<img src={AboutHeroImage.src} alt="" />
+		<div>
+			<h2>Hi, I am {PROFILE.name}.</h2>
+			<p>
+				I build products, narratives, and brands with teams who care about craft.
+				My work blends strategy with execution, from early positioning through launch.
+			</p>
+		</div>
+	</div>
+
+	<h3>What I do</h3>
+	<ul>
+		<li>Partner with founders to clarify product story, audience, and roadmap.</li>
+		<li>Design user experiences that feel calm, intentional, and inevitable.</li>
+		<li>Translate complex ideas into writing that earns trust.</li>
+	</ul>
+
+	<h3>Principles I keep close</h3>
+	<ul>
+		<li>Clarity over cleverness.</li>
+		<li>Momentum over perfection.</li>
+		<li>Usefulness over novelty.</li>
+	</ul>
+
+	<h3>Now</h3>
+	<p>
+		Open for select advisory, product, and storytelling engagements. I share weekly
+		writing on building with taste and systems that scale.
+	</p>
+
+	<p>
+		Interested in working together? Email me at
+		<a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a>.
+	</p>
+
+	<style>
+		.about-hero {
+			display: grid;
+			grid-template-columns: 180px 1fr;
+			gap: 1.5rem;
+			align-items: center;
+			margin-bottom: 2rem;
+		}
+		.about-hero img {
+			border-radius: 16px;
+			box-shadow: var(--shadow);
+		}
+		@media (max-width: 640px) {
+			.about-hero {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+</Layout>

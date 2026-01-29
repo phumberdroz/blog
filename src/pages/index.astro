@@ -1,0 +1,299 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import { PROFILE, SITE_DESCRIPTION, SITE_TAGLINE, SITE_TITLE, SOCIAL_LINKS } from '../consts';
+
+const posts = (await getCollection('blog'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 3);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main class="home">
+			<section class="hero">
+				<div class="hero-copy">
+					<span class="tag">Now booking advisory + product sprints</span>
+					<h1>{PROFILE.headline}</h1>
+					<p class="lead">{PROFILE.bio}</p>
+					<div class="hero-actions">
+						<a class="button primary" href="/blog">Read the blog</a>
+						<a class="button secondary" href="/about">About me</a>
+					</div>
+					<div class="hero-meta">
+						<p><strong>Location:</strong> {PROFILE.location}</p>
+						<p><strong>Focus:</strong> Product strategy, brand systems, and calm growth.</p>
+					</div>
+				</div>
+				<div class="hero-panel">
+					<div class="panel-card">
+						<h3>Signature ways I help</h3>
+						<ul>
+							<li>Clarify positioning and narrative before you build.</li>
+							<li>Design launch-ready product experiences in weeks.</li>
+							<li>Turn founder insight into content that compounds.</li>
+						</ul>
+						<div class="panel-footer">
+							<span class="tag">Open for Q2 2026</span>
+						</div>
+					</div>
+					<div class="panel-card soft">
+						<h4>Latest note</h4>
+						<p>Sharing weekly ideas on building with clarity and conviction.</p>
+						<a class="text-link" href="/blog">Explore the archive →</a>
+					</div>
+				</div>
+			</section>
+
+			<section class="section offerings">
+				<div class="section-heading">
+					<h2>Build your edge.</h2>
+					<p>{SITE_TAGLINE}</p>
+				</div>
+				<div class="card-grid">
+					<div class="info-card">
+						<h3>Brand + Positioning</h3>
+						<p>Translate your unfair advantage into a narrative, site, and pitch that land.</p>
+						<p class="card-meta">Workshops, narrative briefs, messaging systems.</p>
+					</div>
+					<div class="info-card">
+						<h3>Product Experience</h3>
+						<p>Design the flows, UI, and moments that make your product feel inevitable.</p>
+						<p class="card-meta">Rapid prototypes, design direction, MVP polish.</p>
+					</div>
+					<div class="info-card">
+						<h3>Founder Storytelling</h3>
+						<p>Ship essays, talks, and launches that elevate your voice and vision.</p>
+						<p class="card-meta">Editorial calendars, keynote outlines, ghostwriting.</p>
+					</div>
+				</div>
+			</section>
+
+			<section class="section writing">
+				<div class="section-heading">
+					<h2>Featured writing</h2>
+					<p>Recent essays on product, taste, and building with intention.</p>
+				</div>
+				<div class="post-grid">
+					{posts.map((post) => (
+						<article class="post-card">
+							<a href={`/blog/${post.id}/`}>
+								<h3>{post.data.title}</h3>
+								<p>{post.data.description}</p>
+								<p class="post-date">
+									<FormattedDate date={post.data.pubDate} />
+								</p>
+							</a>
+						</article>
+					))}
+				</div>
+				<a class="text-link" href="/blog">See all posts →</a>
+			</section>
+
+			<section id="contact" class="section contact">
+				<div class="contact-card">
+					<div>
+						<span class="tag">Contact</span>
+						<h2>Ready to collaborate?</h2>
+						<p>
+							I partner with founders and teams looking for calm strategy, strong narrative,
+							and momentum. Share your goals and timeline.
+						</p>
+					</div>
+					<div class="contact-actions">
+						<a class="button primary" href={`mailto:${PROFILE.email}`}>Start a project</a>
+						<div class="contact-links">
+							{SOCIAL_LINKS.map((link) => (
+								<a href={link.href} target="_blank" rel="noreferrer">{link.label}</a>
+							))}
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	.home {
+		display: flex;
+		flex-direction: column;
+		gap: 3rem;
+	}
+
+	.hero {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 2.5rem;
+		align-items: center;
+		padding-top: 1rem;
+	}
+
+	.hero-copy .lead {
+		font-size: 1.15rem;
+		max-width: 520px;
+	}
+
+	.hero-actions {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+		margin: 1.5rem 0;
+	}
+
+	.hero-meta {
+		border-left: 2px solid var(--accent);
+		padding-left: 1rem;
+	}
+
+	.hero-meta p {
+		margin: 0.4rem 0;
+		font-size: 0.95rem;
+		color: var(--muted);
+	}
+
+	.hero-panel {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+
+	.panel-card {
+		background: var(--surface);
+		border-radius: var(--radius);
+		padding: 2rem;
+		box-shadow: var(--shadow);
+		border: 1px solid var(--border);
+	}
+
+	.panel-card ul {
+		margin: 1rem 0 0 1.2rem;
+		color: var(--muted);
+	}
+
+	.panel-card.soft {
+		background: var(--surface-alt);
+	}
+
+	.panel-footer {
+		margin-top: 1.5rem;
+	}
+
+	.section-heading {
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 2rem;
+		flex-wrap: wrap;
+	}
+
+	.card-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1.5rem;
+		margin-top: 2rem;
+	}
+
+	.info-card {
+		background: var(--surface);
+		border-radius: var(--radius);
+		padding: 2rem;
+		border: 1px solid var(--border);
+		box-shadow: var(--shadow);
+	}
+
+	.card-meta {
+		font-size: 0.9rem;
+		margin-top: 1rem;
+		color: var(--muted);
+	}
+
+	.post-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1.5rem;
+		margin: 2rem 0;
+	}
+
+	.post-card {
+		background: var(--surface);
+		border-radius: var(--radius);
+		padding: 1.8rem;
+		border: 1px solid var(--border);
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+	}
+
+	.post-card:hover {
+		transform: translateY(-4px);
+		box-shadow: var(--shadow);
+	}
+
+	.post-card p {
+		margin: 0.6rem 0 0;
+	}
+
+	.post-date {
+		font-size: 0.85rem;
+		color: var(--muted);
+	}
+
+	.text-link {
+		font-weight: 700;
+		color: var(--accent-dark);
+	}
+
+	.contact-card {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 2rem;
+		padding: 2.5rem;
+		background: var(--surface);
+		border-radius: var(--radius);
+		border: 1px solid var(--border);
+		box-shadow: var(--shadow);
+	}
+
+	.contact-actions {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		align-items: flex-end;
+	}
+
+	.contact-links {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+
+	.contact-links a {
+		color: var(--muted);
+	}
+
+	@media (max-width: 960px) {
+		.hero {
+			grid-template-columns: 1fr;
+		}
+		.card-grid,
+		.post-grid {
+			grid-template-columns: 1fr;
+		}
+		.contact-card {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+		.contact-actions {
+			align-items: flex-start;
+		}
+	}
+</style>

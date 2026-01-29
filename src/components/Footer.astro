@@ -1,0 +1,99 @@
+---
+import { PROFILE, SITE_TAGLINE, SOCIAL_LINKS } from '../consts';
+
+const today = new Date();
+---
+
+<footer class="site-footer">
+	<div class="footer-card">
+		<div>
+			<p class="footer-eyebrow">Let's build something meaningful</p>
+			<h3>Stay in touch.</h3>
+			<p>{SITE_TAGLINE}</p>
+		</div>
+		<div class="footer-actions">
+			<a class="button primary" href={`mailto:${PROFILE.email}`}>Email me</a>
+			<p class="footer-email">{PROFILE.email}</p>
+		</div>
+	</div>
+	<div class="footer-meta">
+		<p>&copy; {today.getFullYear()} {PROFILE.name}. All rights reserved.</p>
+		<div class="footer-links">
+			{SOCIAL_LINKS.map((link) => (
+				<a href={link.href} target="_blank" rel="noreferrer">{link.label}</a>
+			))}
+		</div>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		padding: 3rem 2rem 4rem;
+	}
+
+	.footer-card {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 2rem;
+		padding: 2.5rem;
+		background: var(--surface);
+		border-radius: var(--radius);
+		box-shadow: var(--shadow);
+		border: 1px solid var(--border);
+	}
+
+	.footer-eyebrow {
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		font-size: 0.8rem;
+		font-weight: 700;
+		color: var(--accent-dark);
+		margin-bottom: 0.6rem;
+	}
+
+	.footer-actions {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		gap: 0.6rem;
+	}
+
+	.footer-email {
+		margin: 0;
+		color: var(--muted);
+	}
+
+	.footer-meta {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-top: 2.5rem;
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+
+	.footer-links {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+
+	.footer-links a {
+		color: var(--muted);
+	}
+
+	.footer-links a:hover {
+		color: var(--accent-dark);
+	}
+
+	@media (max-width: 860px) {
+		.footer-card {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+		.footer-actions {
+			align-items: flex-start;
+		}
+	}
+</style>
