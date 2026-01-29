@@ -1,0 +1,116 @@
+---
+import { PRIMARY_CTA, PROFILE, SOCIAL_LINKS } from '../consts';
+import HeaderLink from './HeaderLink.astro';
+---
+
+<header class="site-header">
+	<nav class="nav">
+		<div class="brand">
+			<a class="brand-name" href="/">{PROFILE.name}</a>
+			<span class="brand-role">{PROFILE.role}</span>
+		</div>
+		<div class="nav-links">
+			<HeaderLink href="/">Home</HeaderLink>
+			<HeaderLink href="/blog">Writing</HeaderLink>
+			<HeaderLink href="/about">About</HeaderLink>
+			<HeaderLink href="/#contact">Contact</HeaderLink>
+		</div>
+		<div class="nav-actions">
+			<div class="mini-links">
+				{SOCIAL_LINKS.slice(0, 2).map((link) => (
+					<a href={link.href} target="_blank" rel="noreferrer">{link.label}</a>
+				))}
+			</div>
+			<a class="button primary" href={PRIMARY_CTA.href}>{PRIMARY_CTA.label}</a>
+		</div>
+	</nav>
+</header>
+
+<style>
+	.site-header {
+		position: sticky;
+		top: 0;
+		z-index: 10;
+		background: rgba(248, 243, 237, 0.85);
+		backdrop-filter: blur(14px);
+		border-bottom: 1px solid var(--border);
+	}
+
+	.nav {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1.5rem;
+		padding: 1.2rem 2.2rem;
+	}
+
+	.brand {
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+	}
+
+	.brand-name {
+		font-size: 1.2rem;
+		font-weight: 700;
+		color: var(--ink);
+	}
+
+	.brand-role {
+		font-size: 0.9rem;
+		color: var(--muted);
+	}
+
+	.nav-links {
+		display: flex;
+		gap: 1.2rem;
+		font-weight: 600;
+	}
+
+	.nav-actions {
+		display: flex;
+		align-items: center;
+		gap: 1.2rem;
+	}
+
+	.mini-links {
+		display: flex;
+		gap: 0.8rem;
+		font-size: 0.9rem;
+	}
+
+	.mini-links a {
+		color: var(--muted);
+	}
+
+	.mini-links a:hover {
+		color: var(--accent-dark);
+	}
+
+	@media (max-width: 960px) {
+		.nav {
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+
+		.nav-links {
+			order: 3;
+			width: 100%;
+			justify-content: center;
+			flex-wrap: wrap;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.nav {
+			padding: 1rem 1.2rem;
+		}
+		.nav-actions {
+			width: 100%;
+			justify-content: space-between;
+		}
+		.button.primary {
+			padding: 0.7rem 1rem;
+		}
+	}
+</style>

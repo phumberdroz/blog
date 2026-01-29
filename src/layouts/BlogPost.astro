@@ -1,0 +1,92 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+
+type Props = CollectionEntry<'blog'>['data'];
+
+const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+---
+
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} />
+		<style>
+			.article-shell {
+				padding: 2rem 0 4rem;
+			}
+			.hero-image {
+				width: 100%;
+				margin-bottom: 2rem;
+			}
+			.hero-image img {
+				display: block;
+				margin: 0 auto;
+				border-radius: var(--radius);
+				box-shadow: var(--shadow);
+			}
+			.article {
+				width: min(760px, calc(100% - 2rem));
+				margin: 0 auto;
+				background: var(--surface);
+				padding: 2.5rem;
+				border-radius: var(--radius);
+				border: 1px solid var(--border);
+				box-shadow: var(--shadow);
+			}
+			.title {
+				margin-bottom: 1.5rem;
+			}
+			.title h1 {
+				margin: 0.6rem 0 0;
+			}
+			.date {
+				font-size: 0.9rem;
+				color: var(--muted);
+				text-transform: uppercase;
+				letter-spacing: 0.08em;
+			}
+			.last-updated-on {
+				margin-top: 0.4rem;
+				font-style: italic;
+				color: var(--muted);
+			}
+			@media (max-width: 640px) {
+				.article {
+					padding: 1.8rem;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<Header />
+		<main class="article-shell">
+			<article>
+				{heroImage && (
+					<div class="hero-image">
+						<Image width={1200} height={640} src={heroImage} alt="" />
+					</div>
+				)}
+				<div class="article">
+					<div class="title">
+						<div class="date">
+							<FormattedDate date={pubDate} />
+							{updatedDate && (
+								<div class="last-updated-on">
+									Updated <FormattedDate date={updatedDate} />
+								</div>
+							)}
+						</div>
+						<h1>{title}</h1>
+					</div>
+					<slot />
+				</div>
+			</article>
+		</main>
+		<Footer />
+	</body>
+</html>
