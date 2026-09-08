@@ -2,7 +2,6 @@
 title: 'Building with intent'
 description: 'A framework for shipping calm, differentiated products in noisy markets.'
 pubDate: '2026-01-22'
-heroImage: '../../assets/blog-placeholder-4.jpg'
 ---
 
 When everything looks the same, the winners are the teams who ship with intent.

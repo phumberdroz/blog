@@ -1,7 +1,7 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
+import { Footer } from '../components/Footer';
+import { Header } from '../components/Header';
 
 interface Props {
 	title: string;
@@ -11,32 +11,23 @@ interface Props {
 const { title, description } = Astro.props;
 ---
 
+<!doctype html>
 <html lang="en">
 	<head>
 		<BaseHead title={title} description={description} />
-		<style>
-			.page-shell {
-				padding: 2rem 0 4rem;
-			}
-			.page-card {
-				width: min(800px, calc(100% - 2rem));
-				margin: 0 auto;
-				background: var(--surface);
-				padding: 2.5rem;
-				border-radius: var(--radius);
-				border: 1px solid var(--border);
-				box-shadow: var(--shadow);
-			}
-		</style>
 	</head>
 	<body>
 		<Header />
-		<main class="page-shell">
-			<section class="page-card">
-				<h1>{title}</h1>
-				<p>{description}</p>
-				<hr />
-				<slot />
+		<main id="main" class="site-column article-main">
+			<section class="mx-auto max-w-2xl space-y-6">
+				<div class="space-y-2">
+					<h1 class="text-3xl font-semibold tracking-tight">{title}</h1>
+					<p class="text-muted-foreground">{description}</p>
+				</div>
+				<hr class="border-border/70" />
+				<div class="prose">
+					<slot />
+				</div>
 			</section>
 		</main>
 		<Footer />

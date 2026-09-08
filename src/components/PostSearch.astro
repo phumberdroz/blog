@@ -1,0 +1,29 @@
+<script>
+  // Enhance the static list; all posts stay readable without JavaScript.
+  for (const container of document.querySelectorAll<HTMLElement>('[data-post-search]')) {
+    const search = container.querySelector<HTMLElement>('.post-search')!;
+    const input = container.querySelector<HTMLInputElement>('input')!;
+    const clear = container.querySelector<HTMLButtonElement>('button')!;
+    const status = container.querySelector<HTMLElement>('[role="status"]')!;
+    const normalize = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+    const posts = Array.from(container.querySelectorAll<HTMLElement>('[data-search-text]'), (element) => ({
+      element,
+      text: normalize(element.dataset.searchText ?? ''),
+    }));
+    const filter = () => {
+      const terms = normalize(input.value.trim()).split(/\s+/).filter(Boolean);
+      let count = 0;
+      for (const post of posts) {
+        post.element.hidden = !terms.every((term) => post.text.includes(term));
+        if (!post.element.hidden) count++;
+      }
+      clear.hidden = !input.value;
+      status.textContent = !terms.length ? '' : count === 0 ? 'No posts found. Try another word.' : `${count} ${count === 1 ? 'post' : 'posts'} found.`;
+    };
+    input.addEventListener('input', filter);
+    const reset = () => { input.value = ''; filter(); input.focus(); };
+    clear.addEventListener('click', reset);
+    input.addEventListener('keydown', (event) => { if (event.key === 'Escape') reset(); });
+    search.hidden = false;
+  }
+</script>
